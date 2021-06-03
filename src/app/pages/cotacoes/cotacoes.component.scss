@@ -1,0 +1,10 @@
+.loading-spinner {
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    .spinner-border {
+        align-self: center;
+        height: 6rem;
+        width: 6rem;
+    }
+}
