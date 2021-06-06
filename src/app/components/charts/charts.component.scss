@@ -21,6 +21,8 @@
             display: flex;
             flex-direction: row;
             justify-content: left;
+            overflow-x: auto;
+            overflow-y: hidden;
 
             .Tabs_Input {
                 background-color: transparent;
@@ -96,6 +98,27 @@
                     color: white;
                 }
             
+            }
+
+            /* width */
+            &::-webkit-scrollbar {
+                height: 8px;
+            }
+            
+            /* Track */
+            &::-webkit-scrollbar-track {
+                border-radius: 10px;
+            }
+            
+            /* Handle */
+            &::-webkit-scrollbar-thumb {
+                background: #353535; 
+                border-radius: 10px;
+            }
+            
+            /* Handle on hover */
+            &::-webkit-scrollbar-thumb:hover {
+                background: black; 
             }
         }
     }
