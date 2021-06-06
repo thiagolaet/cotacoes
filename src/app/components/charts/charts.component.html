@@ -1,14 +1,29 @@
-<div>
-    <button (click)="changeSelectedCurrency('EUR')">EUR</button>
+<div class="Chart">
+    <div class="Chart_Header">
+        <div class="Tabs">
+            <button (click)="createNewTab()">
+                <i></i>
+            </button>
 
-    <button (click)="changeSelectedCurrency('BRL')">BRL</button>
-    
-    <button (click)="changeSelectedCurrency('JPY')">JPY</button>
-    
+            <button (click)="changeSelectedCurrency('EUR')" [ngClass]="{ active: selectedCurrency == 'EUR' }">EUR</button>
+
+            <button (click)="changeSelectedCurrency('BRL')" [ngClass]="{ active: selectedCurrency == 'BRL' }">BRL</button>
+            
+            <button (click)="changeSelectedCurrency('JPY')" [ngClass]="{ active: selectedCurrency == 'JPY' }">JPY</button>
+
+            <button *ngFor="let tab of tabs; let i = index"
+                (click)="changeSelectedCurrency(tab.currency)">
+                {{ tab.currency }}
+            </button>
+        </div>
+    </div>
+
     <highcharts-chart
+        class="Chart_Body"
         [Highcharts] = "highcharts" 
-        [options] = "chartOptions" 
-        style = "width: 100%; height: 400px; display: block;">
+        [options] = "chartOptions">
     </highcharts-chart>
+
+    <div class="Chart_Footer"></div>
 </div>
     

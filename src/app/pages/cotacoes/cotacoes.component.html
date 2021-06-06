@@ -8,7 +8,7 @@
 
     <main class="pt-4 pb-4 container">
 
-        <app-charts *ngIf="!loadingRates" [rates]="rates"></app-charts>   
+        <app-charts *ngIf="!loadingRates;else loading" [rates]="rates"></app-charts>   
 
         <ng-template #loading>
             <div class="loading-spinner">
