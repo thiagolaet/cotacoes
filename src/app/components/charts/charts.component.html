@@ -1,0 +1,14 @@
+<div>
+    <button (click)="changeSelectedCurrency('EUR')">EUR</button>
+
+    <button (click)="changeSelectedCurrency('BRL')">BRL</button>
+    
+    <button (click)="changeSelectedCurrency('JPY')">JPY</button>
+    
+    <highcharts-chart
+        [Highcharts] = "highcharts" 
+        [options] = "chartOptions" 
+        style = "width: 100%; height: 400px; display: block;">
+    </highcharts-chart>
+</div>
+    

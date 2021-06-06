@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as Highcharts from 'highcharts';
 
 import { CotacoesService } from 'src/app/services/cotacoes.service';
 
@@ -10,12 +9,8 @@ import { CotacoesService } from 'src/app/services/cotacoes.service';
 })
 export class CotacoesComponent implements OnInit {
 
-  highcharts = Highcharts;
   rates = [];
-  data = [];
-  chartOptions;
   loadingRates = true;
-  selectedCurrency = 'EUR';
 
   constructor(
     private cotacoesService: CotacoesService
@@ -23,11 +18,6 @@ export class CotacoesComponent implements OnInit {
 
   ngOnInit() {
     this.getWeekRates(0, new Date().toISOString().split('T')[0]);
-  }
-
-  changeSelectedCurrency(currency: string) {
-    this.selectedCurrency = currency;
-    this.setData();
   }
 
   // Função recursiva que executa de forma sequencial as requisições de busca 
@@ -43,51 +33,16 @@ export class CotacoesComponent implements OnInit {
         if (aux + 1 < 7) this.getWeekRates(aux + 1, nextDate.toISOString().split('T')[0]);
         else {
           this.sortRatesByDate();
-          this.setData();
+          this.loadingRates = false;
         }
-        
       }
     );
-  }
-
-  setData() {
-    this.data = [{
-      name: this.selectedCurrency,
-      data: []
-    }];
-
-    this.chartOptions = {
-      chart: {
-        type: "spline"
-      },
-      title: {
-        text: `USD x ${this.selectedCurrency}`
-      },
-      xAxis: {
-        categories:[]
-      },
-      yAxis: {
-        title: {
-          text: this.selectedCurrency
-        }
-      },
-      series: this.data
-    }
-
-    this.rates.forEach(e => {
-      this.data[0].data.push(e.rates[this.selectedCurrency]);
-      this.chartOptions.xAxis.categories.push(e.date);
-    });
-    
-    console.log(this.data);
-    this.loadingRates = false;
   }
 
   sortRatesByDate() {
     this.rates = this.rates.sort((a, b) => {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     });
-    console.log(this.rates);
   }
 
 }

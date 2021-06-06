@@ -7,13 +7,15 @@ import { AppComponent } from './app.component';
 import { CotacoesComponent } from './pages/cotacoes/cotacoes.component';
 
 import { HighchartsChartComponent } from 'highcharts-angular';
+import { ChartsComponent } from './components/charts/charts.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     HighchartsChartComponent,
-    CotacoesComponent
+    CotacoesComponent,
+    ChartsComponent
   ],
   imports: [
     BrowserModule,
