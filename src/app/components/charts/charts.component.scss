@@ -22,6 +22,64 @@
             flex-direction: row;
             justify-content: left;
 
+            .Tabs_Input {
+                background-color: transparent;
+                color: white;
+                max-width: 40px;
+                text-transform: uppercase;
+                border: none;
+                font-weight: bold;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            .Tabs_Tab {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .Tabs_AddButton {
+                background-color: #858585;
+                height: 20px;
+                width: 20px;
+                border-radius: 100%;
+                display: flex;
+                justify-content: center;
+                transition: 0.7s;
+
+                span {
+                    align-self: center;
+                    color: #2B2B2B;
+                }
+
+                &:hover { 
+                    background-color: rgb(209, 209, 209);    
+                }
+            }
+
+            .Tabs_DeleteButton {
+                margin-left: 8px;
+                background-color: #858585;
+                height: 14px;
+                width: 14px;
+                border-radius: 100%;
+                display: flex;
+                justify-content: center;
+                transition: 0.7s;
+
+                span {
+                    align-self: center;
+                    color: #2B2B2B;
+                    font-size: 10px;
+                }
+
+                &:hover { 
+                    background-color: rgb(209, 209, 209);    
+                }
+            }
+
             button {
                 margin-right: 5px;
                 background-color: transparent;
@@ -32,7 +90,7 @@
                 color: #858585;
                 border-radius: 5px;
                 align-self: center;
-                
+
                 &.active {
                     border-bottom: 2px solid white;
                     color: white;

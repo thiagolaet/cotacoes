@@ -1,19 +1,18 @@
 <div class="Chart">
     <div class="Chart_Header">
         <div class="Tabs">
-            <button (click)="createNewTab()">
-                <i></i>
+            <button class="Tabs_AddButton" (click)="createNewTab()">
+                <span>+</span>
             </button>
 
-            <button (click)="changeSelectedCurrency('EUR')" [ngClass]="{ active: selectedCurrency == 'EUR' }">EUR</button>
-
-            <button (click)="changeSelectedCurrency('BRL')" [ngClass]="{ active: selectedCurrency == 'BRL' }">BRL</button>
-            
-            <button (click)="changeSelectedCurrency('JPY')" [ngClass]="{ active: selectedCurrency == 'JPY' }">JPY</button>
-
             <button *ngFor="let tab of tabs; let i = index"
-                (click)="changeSelectedCurrency(tab.currency)">
-                {{ tab.currency }}
+                class="Tabs_Tab"
+                [ngClass]="{ active: selectedCurrency == tab.currency }"
+                (click)="changeSelectedCurrency(tab.currency)"
+            >
+                <input *ngIf="!tab.currency; else currencyValue" (change)="updateTabValue(i, $event)" class="Tabs_Input" maxlength="3" type="text">
+                <ng-template #currencyValue>{{ tab.currency }}</ng-template>
+                <button class="Tabs_DeleteButton" (click)="deleteTab(i)"><span>x</span></button>
             </button>
         </div>
     </div>

@@ -14,8 +14,8 @@ export class ChartsComponent implements OnInit {
   data = [];
   chartOptions;
   highcharts = Highcharts;
-  tabs = [];
-
+  tabs = [{ currency: 'EUR' }, { currency: 'BRL' }, { currency: 'JPY' }];
+  
   constructor() { }
 
   ngOnInit() {    
@@ -194,6 +194,8 @@ export class ChartsComponent implements OnInit {
   }
 
   changeSelectedCurrency(currency: string) {
+    if (!currency) return;
+
     this.selectedCurrency = currency;
     this.setData();
   }
@@ -207,7 +209,23 @@ export class ChartsComponent implements OnInit {
   }
 
   createNewTab() {
+    this.tabs.push({
+      currency: ''
+    });
+  }
 
+  updateTabValue(index: number, event) {
+    let newCurrency = event.target.value.toUpperCase();
+    this.tabs[index].currency = newCurrency;
+    this.selectedCurrency = newCurrency;
+    this.setData();
+  }
+
+  deleteTab(index: number) {
+    this.tabs = this.tabs.filter(e => {
+      if (e != this.tabs[index]) return e; 
+    });
+    if (this.tabs.length) this.changeSelectedCurrency(this.tabs[0].currency);
   }
 
 }

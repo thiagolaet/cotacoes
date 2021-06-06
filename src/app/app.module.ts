@@ -20,7 +20,7 @@ import { ChartsComponent } from './components/charts/charts.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule
+    HttpClientModule  
   ],
   providers: [],
   bootstrap: [AppComponent]
