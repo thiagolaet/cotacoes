@@ -8,6 +8,11 @@
 
     <main class="pt-4 pb-4 container">
 
+        <p>
+            Você está visualizando a página com integração direta na API da <a href="https://www.vatcomply.com/documentation">VAT comply</a>, <a href="#">clique aqui</a> para acessar
+            a página com integração na sua API local.
+        </p>
+
         <app-charts *ngIf="!loadingRates;else loading" [rates]="rates"></app-charts>   
 
         <ng-template #loading>
