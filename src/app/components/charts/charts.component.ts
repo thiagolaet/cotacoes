@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as Highcharts from 'highcharts';
 
 @Component({
@@ -9,6 +9,7 @@ import * as Highcharts from 'highcharts';
 export class ChartsComponent implements OnInit {
 
   @Input() rates;
+  @ViewChild('inputToFocus', { static: false }) inputToFocus: ElementRef;
 
   selectedCurrency = 'EUR';
   data = [];
@@ -18,10 +19,11 @@ export class ChartsComponent implements OnInit {
   
   constructor() { }
 
-  ngOnInit() {    
+  ngOnInit() {  
+    // Definindo tema do gráfico 
     Highcharts.setOptions(
       {
-        colors: ['#2b908f', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
+        colors: ['#D0992E', '#90ee7e', '#f45b5b', '#7798BF', '#aaeeee', '#ff0066',
             '#eeaaee', '#55BF3B', '#DF5353', '#7798BF', '#aaeeee'],
         chart: {
             backgroundColor: {
@@ -91,6 +93,10 @@ export class ChartsComponent implements OnInit {
           }
         },
         plotOptions: {
+          area: {
+            fillColor: 'rgba(0, 0, 0, 0.3)',
+            lineColor: '#D0992E',
+          },
           series: {
             dataLabels: {
                 color: '#F0F0F3',
@@ -99,7 +105,8 @@ export class ChartsComponent implements OnInit {
                 }
             },
             marker: {
-              lineColor: '#333'
+              lineColor: '#333',
+              fillColor: '#CACACA'
             }
           },
           errorbar: {
@@ -146,6 +153,7 @@ export class ChartsComponent implements OnInit {
         },
       }
     );
+
     this.setData();
   }
 
@@ -209,9 +217,18 @@ export class ChartsComponent implements OnInit {
   }
 
   createNewTab() {
-    this.tabs.push({
-      currency: ''
-    });
+
+    // Não adicionar nova aba se a última aba adicionada estiver vazia
+    if (this.tabs[this.tabs.length - 1].currency) {
+      this.tabs.push({
+        currency: ''
+      });
+    } 
+
+    // Focando no input da nova aba
+    setTimeout(() => { 
+      this.inputToFocus.nativeElement.focus();
+    }, 0);  
   }
 
   updateTabValue(index: number, event) {

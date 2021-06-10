@@ -10,9 +10,9 @@
                 [ngClass]="{ active: selectedCurrency == tab.currency }"
                 (click)="changeSelectedCurrency(tab.currency)"
             >
-                <input *ngIf="!tab.currency; else currencyValue" (change)="updateTabValue(i, $event)" class="Tabs_Input" maxlength="3" type="text">
+                <input #inputToFocus *ngIf="!tab.currency; else currencyValue" (change)="updateTabValue(i, $event)" class="Tabs_Input" maxlength="3" type="text">
                 <ng-template #currencyValue>{{ tab.currency }}</ng-template>
-                <button class="Tabs_DeleteButton" (click)="deleteTab(i)"><span>x</span></button>
+                <button *ngIf="![0, 1, 2].includes(i)" class="Tabs_DeleteButton" (click)="deleteTab(i)"><span>x</span></button>
             </button>
         </div>
     </div>
