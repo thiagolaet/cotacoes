@@ -6,21 +6,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CotacoesComponent } from './pages/cotacoes/cotacoes.component';
 
-import { HighchartsChartComponent } from 'highcharts-angular';
+import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartsComponent } from './components/charts/charts.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    HighchartsChartComponent,
     CotacoesComponent,
     ChartsComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    HttpClientModule  
+    HttpClientModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

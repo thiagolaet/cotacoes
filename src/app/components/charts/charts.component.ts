@@ -94,7 +94,7 @@ export class ChartsComponent implements OnInit {
         },
         plotOptions: {
           area: {
-            fillColor: 'rgba(0, 0, 0, 0.3)',
+            fillColor: 'rgba(0, 0, 0, 0.2)',
             lineColor: '#D0992E',
           },
           series: {
