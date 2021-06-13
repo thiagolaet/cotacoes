@@ -7,11 +7,21 @@
 
             <button *ngFor="let tab of tabs; let i = index"
                 class="Tabs_Tab"
-                [ngClass]="{ active: selectedCurrency == tab.currency }"
-                (click)="changeSelectedCurrency(tab.currency)"
+                [ngClass]="{ active: selectedCurrency == tab }"
+                (click)="changeSelectedCurrency(tab)"
             >
-                <input #inputToFocus *ngIf="!tab.currency; else currencyValue" (change)="updateTabValue(i, $event)" class="Tabs_Input" maxlength="3" type="text">
-                <ng-template #currencyValue>{{ tab.currency }}</ng-template>
+                <input 
+                    #inputToFocus 
+                    *ngIf="!tab; else currencyValue" 
+                    class="Tabs_Input" maxlength="3" 
+                    type="text"
+                    (keyup)="updateSuggestionList()"
+                >
+                <ul *ngIf="!tab" class="suggestionList">
+                    <li *ngFor="let currency of suggestionList" (click)="selectOnSuggestionList(currency, i)">{{ currency }}</li>
+                    <span *ngIf="!suggestionList.length">Nenhum resultado encontrado</span>
+                </ul>
+                <ng-template #currencyValue>{{ tab }}</ng-template>
                 <button *ngIf="![0, 1, 2].includes(i)" class="Tabs_DeleteButton" (click)="deleteTab(i)"><span>x</span></button>
             </button>
         </div>

@@ -27,13 +27,64 @@
             .Tabs_Input {
                 background-color: transparent;
                 color: #858585;
-                max-width: 40px;
+                max-width: 50px;
                 text-transform: uppercase;
                 border: none;
                 font-weight: bold;
 
                 &:focus {
                     outline: none;
+                }
+            }
+
+            .suggestionList {
+                list-style: none;
+                border-radius: 5px;
+                position: absolute;
+                top: 60px;
+                display: flex;
+                flex-direction: column;
+                background-color: rgb(199, 199, 199);
+                width: fit-content;
+                padding: 5px;
+                margin: 0;
+                max-height: 280px;
+                overflow-y: auto;
+                li {
+                    color: #4d4d4d;
+                    padding: 2px;
+                    align-self: center;
+                    border-bottom: 1px solid #4d4d4d;
+                    transition: 0.1s;
+
+                    &:last-child {
+                        border-bottom: none;
+                    }
+                    &:hover {
+                        color: rgb(199, 199, 199);
+                        background-color: #4d4d4d;
+                    }
+                }
+
+                /* width */
+                &::-webkit-scrollbar {
+                    width: 8px;
+                }
+                
+                /* Track */
+                &::-webkit-scrollbar-track {
+                    border-radius: 10px;
+                }
+                
+                /* Handle */
+                &::-webkit-scrollbar-thumb {
+                    background: #353535; 
+                    border-radius: 10px;
+                }
+                
+                /* Handle on hover */
+                &::-webkit-scrollbar-thumb:hover {
+                    background: #2B2B2B; 
                 }
             }
 

@@ -1,5 +1,6 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import * as Highcharts from 'highcharts';
+import { DayRates } from 'src/app/models/dayRates';
 
 @Component({
   selector: 'app-charts',
@@ -8,18 +9,22 @@ import * as Highcharts from 'highcharts';
 })
 export class ChartsComponent implements OnInit {
 
-  @Input() rates;
+  @Input() rates: DayRates[];
   @ViewChild('inputToFocus', { static: false }) inputToFocus: ElementRef;
 
   selectedCurrency = 'EUR';
   data = [];
   chartOptions;
   highcharts = Highcharts;
-  tabs = [{ currency: 'EUR' }, { currency: 'BRL' }, { currency: 'JPY' }];
-  
+  tabs = ['EUR', 'BRL', 'JPY'];
+  currencies = [];
+  suggestionList = [];
+
   constructor() { }
 
   ngOnInit() {  
+    this.currencies = Object.keys(this.rates[0].rates);
+
     // Definindo tema do gráfico 
     Highcharts.setOptions(
       {
@@ -197,8 +202,6 @@ export class ChartsComponent implements OnInit {
 
     // Definindo o menor valor do eixo y no gráfico para melhorar a visualização
     this.chartOptions.yAxis.min = this.findSmallestValue(this.data[0].data) - 0.005;
-
-    console.log(this.data);
   }
 
   changeSelectedCurrency(currency: string) {
@@ -217,32 +220,39 @@ export class ChartsComponent implements OnInit {
   }
 
   createNewTab() {
+    this.updateSuggestionList();
 
     // Não adicionar nova aba se a última aba adicionada estiver vazia
-    if (this.tabs[this.tabs.length - 1].currency) {
-      this.tabs.push({
-        currency: ''
-      });
+    if (this.tabs[this.tabs.length - 1]) {
+      this.tabs.push('');
     } 
-
+  
     // Focando no input da nova aba
     setTimeout(() => { 
       this.inputToFocus.nativeElement.focus();
     }, 0);  
   }
 
-  updateTabValue(index: number, event) {
-    let newCurrency = event.target.value.toUpperCase();
-    this.tabs[index].currency = newCurrency;
-    this.selectedCurrency = newCurrency;
-    this.setData();
-  }
-
   deleteTab(index: number) {
     this.tabs = this.tabs.filter(e => {
       if (e != this.tabs[index]) return e; 
     });
-    if (this.tabs.length) this.changeSelectedCurrency(this.tabs[0].currency);
+    if (this.tabs.length) this.changeSelectedCurrency(this.tabs[0]);
+  }
+
+  updateSuggestionList() {
+    this.suggestionList = this.currencies.filter(e => {
+      if (!this.tabs.includes(e) && (!this.inputToFocus || e.includes(this.inputToFocus.nativeElement.value.toUpperCase()))) {
+        return e;
+      } 
+    });
+  }
+
+  selectOnSuggestionList(currency: string, index: number) {
+    this.inputToFocus.nativeElement.value = currency;
+    this.tabs[index] = currency;
+    this.selectedCurrency = currency;
+    this.setData();
   }
 
 }
