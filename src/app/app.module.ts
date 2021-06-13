@@ -8,13 +8,15 @@ import { CotacoesComponent } from './pages/cotacoes/cotacoes.component';
 
 import { HighchartsChartModule } from 'highcharts-angular';
 import { ChartsComponent } from './components/charts/charts.component';
+import { CotacoesApiComponent } from './pages/cotacoes-api/cotacoes-api.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CotacoesComponent,
-    ChartsComponent
+    ChartsComponent,
+    CotacoesApiComponent
   ],
   imports: [
     BrowserModule,
