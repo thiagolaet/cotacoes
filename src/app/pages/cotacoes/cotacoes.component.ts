@@ -22,9 +22,13 @@ export class CotacoesComponent implements OnInit {
   }
 
   getWeekDates(): string[] {
+    // Checando se já passou das 16 horas UTC (hora que ocorre a inserção dos dados referentes ao dia atual)
+    let nDays = 7;
+    if (new Date().getUTCHours() >= 16) nDays = 6
+
     let timezoneOffset = (new Date().getTimezoneOffset() * 60000);
     let weekDates = [new Date(Date.now() - timezoneOffset).toISOString().split('T')[0]];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < nDays; i++) {
       let dayBefore = new Date(weekDates[i] + 'T00:00:00');
       dayBefore.setDate(dayBefore.getDate() - 1);
       weekDates.push(dayBefore.toISOString().split('T')[0])
