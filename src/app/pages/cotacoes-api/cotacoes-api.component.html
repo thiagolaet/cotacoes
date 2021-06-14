@@ -8,18 +8,24 @@
 
     <main class="pt-4 pb-4 container">
 
-        <p>
-            Você está visualizando a página com integração na <b>API local</b>, <a href="#">clique aqui</a> para acessar
-            a página com integração direta na API da VAT comply.
-        </p>
-
-        <app-charts *ngIf="!loadingRates;else loading" [rates]="rates"></app-charts>   
-
-        <ng-template #loading>
+        <div *ngIf="rates.length">
+            <p>
+                Você está visualizando a página com integração na <b>API local</b>, <a [routerLink]="['/']">clique aqui</a> para acessar
+                a página com integração direta na API da VAT comply.
+            </p>
+    
+            <app-charts [rates]="rates"></app-charts>   
+    
+        </div>
+    
+        <div *ngIf="loadingRates">
             <div class="loading-spinner">
                 <div class="spinner-border" role="status"></div>
             </div>
-        </ng-template>
+        </div>
+
+        <p *ngIf="!rates.length && !loadingRates">Não foi possível carregar as informações do gráfico. Por favor, verifique se você está rodando a API local ou <a [routerLink]="['/']">acesse</a> a página com integração direta na API da VAT comply.</p>
+
     </main>
 
 </div>

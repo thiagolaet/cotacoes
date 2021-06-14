@@ -48,6 +48,10 @@ export class CotacoesComponent implements OnInit {
       this.filterDuplicates();
       
       this.loadingRates = false;
+    },
+    error => {
+      console.log(error);
+      this.loadingRates = false;
     });
     
   }
