@@ -2,10 +2,8 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.29.
 
-## Development server
+## Como rodar
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+0. Instale o angular na versão 8.3.29 através do comando `npm install -g @angular/cli@8`
+1. Instale as dependências necessárias rodando o comando `npm install` no diretório do projeto 
+2. Rode o projeto executando o comando `ng serve --open` no diretório do projeto
