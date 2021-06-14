@@ -22,7 +22,8 @@ export class CotacoesComponent implements OnInit {
   }
 
   getWeekDates(): string[] {
-    let weekDates = [new Date().toISOString().split('T')[0]];
+    let timezoneOffset = (new Date().getTimezoneOffset() * 60000);
+    let weekDates = [new Date(Date.now() - timezoneOffset).toISOString().split('T')[0]];
     for (let i = 0; i < 6; i++) {
       let dayBefore = new Date(weekDates[i] + 'T00:00:00');
       dayBefore.setDate(dayBefore.getDate() - 1);
@@ -38,7 +39,6 @@ export class CotacoesComponent implements OnInit {
       weekDatesObservables.push(this.cotacoesService.getDayRate(date));
     });
     forkJoin(weekDatesObservables).subscribe(resolve => {
-      console.log(resolve);
       this.rates = resolve;
       
       // Ordenando a lista resultante pela data
