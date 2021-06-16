@@ -9,7 +9,7 @@ import { DayRates } from 'src/app/models/dayRates';
 })
 export class ChartsComponent implements OnInit {
 
-  @Input() rates: DayRates[];
+  @Input() rates;
   @ViewChild('inputToFocus', { static: false }) inputToFocus: ElementRef;
 
   selectedCurrency = 'EUR';
@@ -23,7 +23,7 @@ export class ChartsComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {  
-    this.currencies = Object.keys(this.rates[0].rates);
+    this.currencies = Object.keys(this.rates.rates);
 
     // Definindo tema do gráfico 
     Highcharts.setOptions(
@@ -163,20 +163,22 @@ export class ChartsComponent implements OnInit {
   }
 
   setData() {
+    console.time('setData');
+
     this.data = [{
       name: this.selectedCurrency,
-      data: []
+      data: this.rates.rates[this.selectedCurrency]
     }];
 
     this.chartOptions = {
       chart: {
-        type: "area"
+        type: "line"
       },
       title: {
         text: `USD x ${this.selectedCurrency}`,
       },
       xAxis: {
-        categories: [],
+        categories: this.rates.dates,
         labels: {
           enabled: false
         }
@@ -189,19 +191,10 @@ export class ChartsComponent implements OnInit {
       series: this.data,
     }
 
-    this.rates.forEach(e => {
-      this.data[0].data.push(e.rates[this.selectedCurrency]);
-      this.chartOptions.xAxis.categories.push(new Date(e.date + 'T00:00:00').toLocaleDateString('pt-br',
-      {
-        year: 'numeric',
-        month: 'long',
-        weekday: 'long',
-        day: 'numeric'
-      }));
-    });
+    console.timeEnd('setData');
 
     // Definindo o menor valor do eixo y no gráfico para melhorar a visualização
-    this.chartOptions.yAxis.min = this.findSmallestValue(this.data[0].data) - 0.005;
+    // this.chartOptions.yAxis.min = this.findSmallestValue(this.data[0].data) - 0.005;
   }
 
   changeSelectedCurrency(currency: string) {
@@ -211,13 +204,13 @@ export class ChartsComponent implements OnInit {
     this.setData();
   }
 
-  findSmallestValue(array: number[]) {
-    let smallest = array[0];
-    array.forEach(e => {
-      if (e != smallest && e < smallest) smallest = e;
-    });
-    return smallest;
-  }
+  // findSmallestValue(array: number[]) {
+  //   let smallest = array[0];
+  //   array.forEach(e => {
+  //     if (e != smallest && e < smallest) smallest = e;
+  //   });
+  //   return smallest;
+  // }
 
   createNewTab() {
     this.updateSuggestionList();

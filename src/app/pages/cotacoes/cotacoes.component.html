@@ -8,13 +8,13 @@
 
     <main class="pt-4 pb-4 container">
 
-        <div *ngIf="rates.length">
+        <div *ngIf="data">
             <p>
                 Você está visualizando a página com integração direta na API da <b>VAT comply</b>, <a [routerLink]="['/com_api']">clique aqui</a> para acessar
                 a página com integração na sua API local.
             </p>
             
-            <app-charts [rates]="rates"></app-charts>   
+            <app-charts [rates]="data"></app-charts>   
         
         </div>
 
@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        <p *ngIf="!rates.length && !loadingRates">Não foi possível carregar as informações do gráfico. Por favor, tente novamente mais tarde.</p>
+        <p *ngIf="!data && !loadingRates">Não foi possível carregar as informações do gráfico. Por favor, tente novamente mais tarde.</p>
     </main>
 
 </div>

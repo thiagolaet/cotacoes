@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { forkJoin } from 'rxjs';
+import { Rate } from 'src/app/models/Rate';
 
 import { CotacoesService } from 'src/app/services/cotacoes.service';
 
@@ -10,8 +11,9 @@ import { CotacoesService } from 'src/app/services/cotacoes.service';
 })
 export class CotacoesComponent implements OnInit {
 
-  rates = [];
+  ratesRaw = [];
   loadingRates = true;
+  data;
 
   constructor(
     private cotacoesService: CotacoesService
@@ -43,7 +45,7 @@ export class CotacoesComponent implements OnInit {
       weekDatesObservables.push(this.cotacoesService.getDayRate(date));
     });
     forkJoin(weekDatesObservables).subscribe(resolve => {
-      this.rates = resolve;
+      this.ratesRaw = resolve;
       
       // Ordenando a lista resultante pela data
       this.sortRatesByDate();
@@ -51,6 +53,8 @@ export class CotacoesComponent implements OnInit {
       // A API retorna a última data válida antes da data enviada na requisição, o que acaba gerando duplicatas na lista resultante
       this.filterDuplicates();
       
+      this.data = this.formatRates();
+
       this.loadingRates = false;
     },
     error => {
@@ -66,8 +70,8 @@ export class CotacoesComponent implements OnInit {
   // getWeekRates(aux: number, date: string) {
   //   this.cotacoesService.getDayRate(date).subscribe(
   //     response => {
-  //       this.rates.push(response);
-  //       console.log('aux: ', aux, this.rates);
+  //       this.ratesRaw.push(response);
+  //       console.log('aux: ', aux, this.ratesRaw);
 
   //       let nextDate = new Date(response.date + 'T00:00:00');
   //       nextDate.setDate(nextDate.getDate() - 1);
@@ -82,17 +86,50 @@ export class CotacoesComponent implements OnInit {
   // }
 
   sortRatesByDate() {
-    this.rates = this.rates.sort((a, b) => {
+    this.ratesRaw = this.ratesRaw.sort((a, b) => {
       return new Date(a.date).getTime() - new Date(b.date).getTime();
     });
   }
 
   filterDuplicates() {
-    let newArray = [this.rates[0]];
+    let newArray = [this.ratesRaw[0]];
     for (let i = 1; i < 7; i++) {
-      if (this.rates[i].date != this.rates[i-1].date) newArray.push(this.rates[i]); 
+      if (this.ratesRaw[i].date != this.ratesRaw[i-1].date) newArray.push(this.ratesRaw[i]); 
     }
-    this.rates = newArray;
+    this.ratesRaw = newArray;
+  }
+
+  formatRates() {
+    let data = {
+      rates: this.createRatesDict(),
+      dates: []
+    }
+
+    this.ratesRaw.forEach(dayRate => {
+
+      data.dates.push(new Date(dayRate.date + 'T00:00:00').toLocaleDateString('pt-br',
+      {
+        year: 'numeric',
+        month: 'long',
+        weekday: 'long',
+        day: 'numeric'
+      }));
+
+      Object.keys(data.rates).forEach(currency => {
+        data.rates[currency].push(dayRate.rates[currency]);
+      });
+    });
+
+    console.log(data);
+    return data;
+  }
+
+  createRatesDict() {
+    let rates = {};
+    Object.keys(this.ratesRaw[0].rates).forEach(currency => {
+      rates[currency] = [];
+    });
+    return rates;
   }
 
 }
